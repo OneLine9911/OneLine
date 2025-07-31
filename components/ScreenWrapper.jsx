@@ -15,7 +15,3 @@ const ScreenWrapper = ({ children, bg }) => {
 }
 
 export default ScreenWrapper
-
-oneline9911@gmail.com
-
-oneline998899
