@@ -1,18 +1,31 @@
-import { Pressable, StyleSheet, Text } from 'react-native';
+import { Pressable, StyleSheet, Text, View } from 'react-native';
 import { theme } from '../constants/theme.js';
 import { hp } from '../helpers/common.js';
+import Loading from './Loading.jsx';
 
-const Button = (
+const Button = ({
     buttonStyles,
     textStyle,
-    title = "",
+    title = '',
     onPress = () => { },
     loading = false,
     hasShadow = false
-) => {
+}) => {
 
     const shadowStyle = {
+        shadowColor: theme.colors.dark,
+        shadowOffset: {width: 0, height: 10},
+        shadowOpacity: 0.2,
+        shadowRadius: 8,
+        elevation: 4
+    }
 
+    if(loading) {
+        return (
+            <View style={[styles.button, buttonStyles, {backgroundColor: 'white'}]}>
+                <Loading />
+            </View>
+        )
     }
 
     return (
@@ -37,6 +50,6 @@ const styles = StyleSheet.create({
     text: {
         fontSize: hp(2.5),
         color: 'white',
-        
+        fontWeight: theme.fonts.bold
     }
 })
