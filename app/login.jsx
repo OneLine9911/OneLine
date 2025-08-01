@@ -1,17 +1,34 @@
 import { useRouter } from 'expo-router'
 import { StatusBar } from 'expo-status-bar'
-import { StyleSheet, Text, TextInput, View } from 'react-native'
+import { useRef, useState } from 'react'
+import { Alert, Pressable, StyleSheet, Text, View } from 'react-native'
+import Icon from '../assets/icons'
 import BackButton from '../components/backButton'
+import Button from '../components/Button'
+import Input from '../components/input'
 import ScreenWrapper from '../components/ScreenWrapper'
 import { theme } from '../constants/theme'
 import { hp, wp } from '../helpers/common'
 
 const Login = () => {
 	const router = useRouter();
+	const emailRef = useRef("");
+	const passwordRef = useRef("");
+	const [loading, setLoading] = useState(false);
+
+	const onSubmit = async () => {
+		if(!emailRef.current || !passwordRef.current) {
+			Alert.alert('Login', "please fill all the fields!");
+			return; 
+		}
+
+		// call the api
+	}
+
 	return (
-		<ScreenWrapper>
+		<ScreenWrapper bg="white">
 			<StatusBar style="dark" />
-			<View>
+			<View style={styles.container}>
 				<BackButton router={router} />
 
 				{/* Welcome */}
@@ -22,10 +39,33 @@ const Login = () => {
 
 				{/* Form */}
 				<View style={styles.form}>
-					<Text style={{fontSize: hp(1.5), color: theme.colors.text}}>
+					<Text style={{ fontSize: hp(1.5), color: theme.colors.text }}>
 						Please login to continue
 					</Text>
-					<TextInput />
+					<Input
+						icon={<Icon name="mail" size={26} strokeWidth={1.6} />}
+						placeholder="Enter your email"
+						onChangeText={value => emailRef.current = value}
+					/>
+					<Input
+						icon={<Icon name="lock" size={26} strokeWidth={1.6} />}
+						placeholder="Enter your password"
+						secureTextEntry
+						onChangeText={value => passwordRef.current = value}
+					/>
+					<Text style={styles.forgotPassword}>Forgot Password?</Text>
+
+					{/* button */}
+					<Button title={'Login'} loading={loading} onPress={onSubmit} />
+
+				</View>
+
+				{/* footer */}
+				<View style={styles.footer}>
+					<Text style={styles.footerText}>Don't have an account?</Text>
+					<Pressable onPress={() => router.push("signUp")}>
+						<Text style={[styles.footerText, { color: theme.colors.primaryDark, fontWeight: theme.fonts.semibold }]}>Sign up</Text>
+					</Pressable>
 				</View>
 
 			</View>
@@ -50,5 +90,21 @@ const styles = StyleSheet.create({
 	form: {
 		gap: 25,
 	},
+	forgotPassword: {
+		textAlign: 'right',
+		fontWeight: theme.fonts.semibold,
+		color: theme.colors.text,
+	},
+	footer: {
+		flexDirection: 'row',
+		justifyContent: 'center',
+		alignItems: 'center',
+		gap: 5,
+	},
+	footerText: {
+		textAlign: 'right',
+		color: theme.colors.text,
+		fontSize: hp(1.5)
+	}
 
 })
