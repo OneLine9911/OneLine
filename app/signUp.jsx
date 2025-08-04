@@ -41,12 +41,8 @@ const SignUp = () => {
       }
     })
 
-    setLoading(false)
-
-    console.log('session', session);
-    console.log('error', error);
     if (error) Alert.alert('Sign Up', error.message)
-    if (!session) Alert.alert('Please check your inbox for email verification!')
+    setLoading(false)
   }
 
 

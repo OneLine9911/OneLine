@@ -1,12 +1,12 @@
 import { useRouter } from "expo-router";
-import { Button, Text, View } from "react-native";
+import { View } from "react-native";
+import Loading from "../components/Loading";
 
 const index = () => {
     const router = useRouter();
     return (
-        <View>
-            <Text style={{ color: "white"}}>index</Text>
-            <Button title="welcome" onPress={() => router.push('welcome')}></Button>
+        <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+            <Loading />
         </View>
     )
 }
