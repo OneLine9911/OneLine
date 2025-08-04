@@ -1,0 +1,2 @@
+export const supabaseUrl = "https://rwsggtfknbdrsozihsba.supabase.co"
+export const supabaseAnonKey = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJ3c2dndGZrbmJkcnNvemloc2JhIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTQzMDYxMTIsImV4cCI6MjA2OTg4MjExMn0.PNm-plZmQYJU-5E4pKhwmRAJPpYfj4-JTLkTJBWylJY"

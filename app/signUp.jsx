@@ -10,6 +10,8 @@ import ScreenWrapper from '../components/ScreenWrapper'
 import { theme } from '../constants/theme'
 import { hp, wp } from '../helpers/common'
 
+import { supabase } from '../lib/supabase'
+
 const SignUp = () => {
   const router = useRouter();
   const nameRef = useRef("");
@@ -23,8 +25,31 @@ const SignUp = () => {
       return;
     }
 
-    // call the api
+    let name = nameRef.current.trim();
+    let email = emailRef.current.trim();
+    let password = passwordRef.current.trim();
+
+    setLoading(true);
+
+    const { data: {session}, error } = await supabase.auth.signUp({
+      email,
+      password,
+      options: {
+        data: {
+          name
+        }
+      }
+    })
+
+    setLoading(false)
+
+    console.log('session', session);
+    console.log('error', error);
+    if (error) Alert.alert('Sign Up', error.message)
+    if (!session) Alert.alert('Please check your inbox for email verification!')
   }
+
+
 
   return (
     <ScreenWrapper bg="white">
@@ -59,7 +84,7 @@ const SignUp = () => {
             secureTextEntry
             onChangeText={value => passwordRef.current = value}
           />
-          
+
           {/* button */}
           <Button title={'Sign Up'} loading={loading} onPress={onSubmit} />
 
@@ -68,7 +93,7 @@ const SignUp = () => {
         {/* footer */}
         <View style={styles.footer}>
           <Text style={styles.footerText}>Already have an account?</Text>
-					<Pressable onPress={() => router.push("login")}>
+          <Pressable onPress={() => router.push("login")}>
             <Text style={[styles.footerText, { color: theme.colors.primaryDark, fontWeight: theme.fonts.semibold }]}>Login</Text>
           </Pressable>
         </View>
