@@ -1,24 +1,16 @@
 import { useRouter } from 'expo-router'
-import { Alert, Button, Pressable, StyleSheet, Text, View } from 'react-native'
+import { Pressable, StyleSheet, Text, View } from 'react-native'
 import Icon from '../../assets/icons'
 import Avatar from '../../components/Avatar'
 import ScreenWrapper from '../../components/ScreenWrapper'
 import { theme } from '../../constants/theme'
 import { useAuth } from '../../contexts/AuthContext'
 import { hp, wp } from '../../helpers/common'
-import { supabase } from '../../lib/supabase'
 
 const Home = () => {
 
     const { user, setAuth } = useAuth();
     const router = useRouter();
-
-    const onLogout = async () => {
-        const { error } = await supabase.auth.signOut();
-        if (error) {
-            Alert.alert('Sign out', "Error signing out!");
-        }
-    }
 
     return (
         <ScreenWrapper bg='white'>
@@ -44,7 +36,6 @@ const Home = () => {
                     </View>
                 </View>
             </View>
-            <Button title='logout' onPress={onLogout} />
         </ScreenWrapper>
     )
 }
