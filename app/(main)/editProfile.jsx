@@ -66,7 +66,6 @@ const EditProfile = () => {
 		setLoading(true);
 
 		if(typeof image == 'object') {
-			console.log('image: ', image?.uri);
 			let imageRes = await uploadFile('profiles', image?.uri, true);
 			if(imageRes.success) {
 				userData.image = imageRes.data;
@@ -83,7 +82,7 @@ const EditProfile = () => {
 			router.back();
 		}
 	}
-	
+
 	let imageSource = user.image && typeof user.image == 'object' ? user.image.uri : getUserImageSrc(user.image);
 
 	return (
