@@ -11,7 +11,7 @@ import ScreenWrapper from '../../components/ScreenWrapper'
 import { theme } from '../../constants/theme'
 import { useAuth } from '../../contexts/AuthContext'
 import { hp, wp } from '../../helpers/common'
-import { getUserImageSrc } from '../../services/imageService'
+import { getUserImageSrc, uploadFile } from '../../services/imageService'
 import { updateUser } from '../../services/userService'
 
 const EditProfile = () => {
@@ -41,8 +41,6 @@ const EditProfile = () => {
 		}
 	}, [])
 
-	let imageSource = user.image && typeof user.image == 'object' ? user.image.uri : getUserImageSrc(user.image);
-
 	const onPickImage = async () => {
 		let result = await ImagePicker.launchImageLibraryAsync({
 			mediaTypes: ImagePicker.MediaTypeOptions.All,
@@ -68,7 +66,13 @@ const EditProfile = () => {
 		setLoading(true);
 
 		if(typeof image == 'object') {
-			// upload image
+			console.log('image: ', image?.uri);
+			let imageRes = await uploadFile('profiles', image?.uri, true);
+			if(imageRes.success) {
+				userData.image = imageRes.data;
+			} else {
+				userData.image = null;
+			}
 		}
 		
 		const res = await updateUser(currentUser?.id, userData);
@@ -79,6 +83,8 @@ const EditProfile = () => {
 			router.back();
 		}
 	}
+	
+	let imageSource = user.image && typeof user.image == 'object' ? user.image.uri : getUserImageSrc(user.image);
 
 	return (
 		<ScreenWrapper bg='white'>
