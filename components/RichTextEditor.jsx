@@ -11,7 +11,6 @@ const RichTextEditor = ({
                 editor={editorRef}
                 actions={[
                     actions.setBold,
-                    actions.setItalic,
                     actions.insertBulletsList,
                     actions.insertOrderedList,
                     actions.insertImage,
