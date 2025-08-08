@@ -44,7 +44,7 @@ const NewPost = () => {
 				style={styles.centerContent}
 			>
 				<View style={styles.glassCard}>
-					<Text style={styles.title}>Cosa stai pensando?</Text>
+					<Text style={styles.title}>Che stai a pensà?</Text>
 					<TextInput
 						ref={editorRef}
 						multiline

@@ -95,6 +95,11 @@ const UserHeader = ({ user, router, handleLogout }) => {
                                 <Text style={styles.infoText}>{user && user.bio}</Text>
                             )
                         }
+                        <View style={[styles.info, {marginTop: 20}]}>
+                            <Icon name="user" size={20} color={theme.colors.textLight} />
+                            <Text style={styles.infoText}>Close Friends</Text>
+                        </View>
+
                     </View>
                 </View>
             </View>
