@@ -1,138 +1,124 @@
-import { useRouter } from 'expo-router'
-import { useRef, useState } from 'react'
-import { ScrollView, StyleSheet, Text, View } from 'react-native'
-import Avatar from '../../components/Avatar'
-import Header from '../../components/Header'
-import RichTextEditor from '../../components/RichTextEditor'
-import ScreenWrapper from '../../components/ScreenWrapper'
-import { theme } from '../../constants/theme'
-import { useAuth } from '../../contexts/AuthContext'
-import { hp, wp } from '../../helpers/common'
+import { BlurView } from 'expo-blur';
+import { useRouter } from 'expo-router';
+import { useRef, useState } from 'react';
+import {
+	KeyboardAvoidingView,
+	Platform,
+	StyleSheet,
+	Text,
+	TextInput,
+	View,
+} from 'react-native';
+import { useAuth } from '../../contexts/AuthContext';
 
 const NewPost = () => {
-
 	const { user } = useAuth();
-	const bodyRef = useRef("");
+	const bodyRef = useRef('');
 	const editorRef = useRef(null);
 	const router = useRouter();
-	
+
 	const [loading, setLoading] = useState(false);
-	const [file, setFile] = useState(file);
+	const [file, setFile] = useState(null);
 
 	return (
-		<ScreenWrapper bg='white'>
-			<View style={styles.container}>
-				<Header title='Create Post' />
-				<ScrollView contentContainerStyle={{ gap: 20 }}>
-					{/* avatar */}
-					<View style={styles.header}>
-						<Avatar
-							uri={user?.image}
-							size={hp(6.5)}
-							rounded={theme.radius.xl}
-						/>
-						<View style={{ gap: 2 }}>
-							<Text style={styles.username}>
-								{
-									user && user.name
-								}
-							</Text>
-							<Text style={styles.publicText}>Public</Text>
-						</View>
-					</View>
-					<View style={styles.textEditor}>
-						<RichTextEditor editorRef={editorRef} onChange={body => bodyRef.current = body}/>
-					</View>
-				</ScrollView>
+		<View style={styles.container}>
+			{/* Background colored boxes */}
+			<View style={styles.background}>
+				{[...Array(20).keys()].map(i => (
+					<View
+						key={`box-${i}`}
+						style={[
+							styles.box,
+							i % 2 === 1 ? styles.boxOdd : styles.boxEven,
+						]}
+					/>
+				))}
 			</View>
-		</ScreenWrapper>
-	)
-}
 
-export default NewPost
+			{/* Blur overlay */}
+			<BlurView intensity={80} tint="light" style={StyleSheet.absoluteFillObject} />
+
+			{/* Centered glass card */}
+			<KeyboardAvoidingView
+				behavior={Platform.OS === 'ios' ? 'padding' : undefined}
+				style={styles.centerContent}
+			>
+				<View style={styles.glassCard}>
+					<Text style={styles.title}>Cosa stai pensando?</Text>
+					<TextInput
+						ref={editorRef}
+						multiline
+						numberOfLines={4}
+						placeholder="Scrivi qui il tuo post..."
+						placeholderTextColor="#666"
+						style={styles.input}
+						onChangeText={text => (bodyRef.current = text)}
+					/>
+				</View>
+			</KeyboardAvoidingView>
+		</View>
+	);
+};
+
+export default NewPost;
 
 const styles = StyleSheet.create({
 	container: {
 		flex: 1,
-		marginBottom: 30,
-		paddingHorizontal: wp(4),
-		gap: 15,
-		//backgroundColor: 'red'
+		backgroundColor: '#fff',
+	},
+	background: {
+		...StyleSheet.absoluteFillObject,
+		flexDirection: 'row',
+		flexWrap: 'wrap',
+		justifyContent: 'center',
+		alignItems: 'flex-start',
+	},
+	box: {
+		width: '25%',
+		height: '100%',
+	},
+	boxEven: {
+		backgroundColor: 'orangered',
+	},
+	boxOdd: {
+		backgroundColor: 'gold',
+	},
+	centerContent: {
+		flex: 1,
+		justifyContent: 'center',
+		alignItems: 'center',
+		padding: 20,
+	},
+	glassCard: {
+		width: '90%',
+		borderRadius: 20,
+		padding: 20,
+		alignItems: 'center',
+		backgroundColor: 'rgba(255, 255, 255, 0.25)', // vetro traslucido
+		borderWidth: 1,
+		borderColor: 'rgba(255, 255, 255, 0.3)',
+		shadowColor: '#000',
+		shadowOffset: { width: 0, height: 10 },
+		shadowOpacity: 0.25,
+		shadowRadius: 20,
+		elevation: 10,
+		overflow: 'hidden',
 	},
 	title: {
-		fontSize: hp(2.5),
-		fontWeight: theme.fonts.semibold,
-		color: theme.colors.text,
-		textAlign: 'center',
-		// marginBottom: 10,
+		fontSize: 20,
+		fontWeight: '600',
+		color: '#222',
+		marginBottom: 12,
 	},
-	header: {
-		flexDirection: 'row',
-		alignItems: 'center',
-		gap: 12
-	},
-	username: {
-		fontSize: hp(2.2),
-		fontWeight: theme.fonts.semibold,
-		color: theme.colors.text,
-	},
-	avatar: {
-		height: hp(6.5),
-		width: hp(6.5),
-		borderRadius: theme.radius.xl,
-		borderCurve: 'continuous',
-		borderWidth: 1,
-		borderColor: 'rgba(0,0,0,0.1)'
-	},
-	publicText: {
-		fontSize: hp(1.7),
-		fontWeight: theme.fonts.medium,
-		color: theme.colors.textLight
-	},
-	textEditor: {
-		// marginTop: 10,
-	},
-	media: {
-		flexDirection: 'row',
-		justifyContent: 'space-between',
-		alignItems: 'center',
-		borderWidth: 1.5,
-		padding: 12,
-		paddingHorizontal: 18,
-		borderRadius: theme.radius.xl,
-		borderCurve: 'continuous',
-		borderColor: theme.colors.gray
-	},
-	mediaIcons: {
-		flexDirection: 'row',
-		alignItems: 'center',
-		gap: 15
-	},
-	addImageText: {
-
-	},
-	imageIcon: {
-		// backgroundColor: theme.colors.gray,
-		// padding: 6
-		borderRadius: theme.radius.md,
-	},
-	file: {
-		height: hp(30),
+	input: {
 		width: '100%',
-		borderRadius: theme.radius.xl,
-		overflow: 'hidden',
-		borderCurve: 'continuous'
+		minHeight: 100,
+		backgroundColor: 'rgba(255, 255, 255, 0.5)',
+		borderRadius: 12,
+		padding: 15,
+		fontSize: 16,
+		color: '#222',
+		textAlignVertical: 'top',
 	},
-	video: {
-
-	},
-	closeIcon: {
-		position: 'absolute',
-		top: 10,
-		right: 10,
-		// shadowColor: theme.colors.textLight,
-		// shadowOffset: {width: 0, height: 3},
-		// shadowOpacity: 0.6,
-		// shadowRadius: 8
-	}
-})
+});
