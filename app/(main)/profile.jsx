@@ -97,7 +97,9 @@ const UserHeader = ({ user, router, handleLogout }) => {
                         }
                         <View style={[styles.info, {marginTop: 20}]}>
                             <Icon name="user" size={20} color={theme.colors.textLight} />
-                            <Text style={styles.infoText}>Close Friends</Text>
+                            <Pressable style={styles.infoText} onPress={() => router.push('closeFriends')}>
+                                <Text style={styles.infoText}>Close Friends</Text>
+                            </Pressable>
                         </View>
 
                     </View>
