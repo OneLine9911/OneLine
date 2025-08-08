@@ -1,8 +1,9 @@
 import React from "react";
-import { ScrollView, StyleSheet, Text, View } from "react-native";
+import { ScrollView, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import ScreenWrapper from "../../components/ScreenWrapper";
 import { useAuth } from "../../contexts/AuthContext";
 
+import Icon from "../../assets/icons";
 import Avatar from "../../components/Avatar";
 import Header from "../../components/Header";
 import { theme } from "../../constants/theme";
@@ -44,7 +45,7 @@ const CloseFriends = () => {
             <Header title="Close Friends" mb={30} />
             <ScrollView style={styles.listContainer}>
                 {users.map(user => (
-                    <View key={user.id} style={styles.userCard}>
+                    <TouchableOpacity key={user.id} style={styles.userCard}>
                         <Avatar
                             uri={user?.image}
                             size={hp(9)}
@@ -54,7 +55,8 @@ const CloseFriends = () => {
                             <Text style={styles.username}>{user.username}</Text>
                             <Text style={styles.nickname}>{user.nickname}</Text>
                         </View>
-                    </View>
+                        <Icon name="plus" size={20} strokeWidth={2} color={theme.colors.dark} />
+                    </TouchableOpacity>
                 ))}
             </ScrollView>
         </ScreenWrapper>
