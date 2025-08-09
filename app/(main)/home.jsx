@@ -1,5 +1,4 @@
 import { useRouter } from 'expo-router'
-import { useEffect } from 'react'
 import { Pressable, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import Icon from '../../assets/icons'
 import Avatar from '../../components/Avatar'
@@ -7,7 +6,7 @@ import ScreenWrapper from '../../components/ScreenWrapper'
 import { theme } from '../../constants/theme'
 import { useAuth } from '../../contexts/AuthContext'
 import { hp, wp } from '../../helpers/common'
-import { supabase } from '../../lib/supabase'
+
 
 const Home = () => {
 
@@ -17,32 +16,6 @@ const Home = () => {
     const onAction = (userId) => {
 
     }
-
-    useEffect(() => {
-        const fetchFriends = async () => {
-            if (!user?.id) return;
-
-            try {
-                const { data, error } = await supabase
-                    .from('friends')
-                    .select('*')
-                    .or(`user_id.eq.${user.id},friend_id.eq.${user.id}`)
-                    .eq('status', 'accepted');
-
-                if (error) {
-                    console.log("Errore nel recupero amici:", error);
-                } else {
-                    console.log("Amici trovati:", data);
-                    // Puoi eventualmente salvare `data` in uno stato
-                }
-
-            } catch (error) {
-                console.log("Errore nella fetch:", error);
-            }
-        };
-
-        fetchFriends();
-    }, [user?.id]);
 
     const users = [
         {

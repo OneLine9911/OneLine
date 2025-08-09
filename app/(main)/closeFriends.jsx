@@ -2,6 +2,7 @@ import React, { useRef, useState } from "react";
 import { ScrollView, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import ScreenWrapper from "../../components/ScreenWrapper";
 import { useAuth } from "../../contexts/AuthContext";
+import { sendRequest } from "../../services/friendService";
 
 import Icon from "../../assets/icons";
 import Avatar from "../../components/Avatar";
@@ -15,12 +16,15 @@ const CloseFriends = () => {
     const searchRef = useRef("");
     const [selectedUsers, setSelectedUsers] = useState([]); 
 
-    const toggleUserSelection = (userId) => {
+
+    const toggleUserSelection = async (userId) => {
         setSelectedUsers(prevSelected =>
             prevSelected.includes(userId)
                 ? prevSelected.filter(id => id !== userId)
                 : [...prevSelected, userId]
         );
+
+        sendRequest(userId);
     };
 
     const users = [
