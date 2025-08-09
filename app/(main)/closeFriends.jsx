@@ -13,7 +13,7 @@ import { hp } from "../../helpers/common";
 const CloseFriends = () => {
     const { user } = useAuth();
     const searchRef = useRef("");
-    const [selectedUsers, setSelectedUsers] = useState([]); // <- Stato per utenti selezionati
+    const [selectedUsers, setSelectedUsers] = useState([]); 
 
     const toggleUserSelection = (userId) => {
         setSelectedUsers(prevSelected =>
@@ -57,7 +57,6 @@ const CloseFriends = () => {
                 <Input
                     icon={<Icon name="search" size={26} strokeWidth={1.6} />}
                     placeholder="Search"
-                    secureTextEntry
                     onChangeText={value => searchRef.current = value}
                 />
             </View>

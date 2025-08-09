@@ -18,7 +18,6 @@ const NewPost = () => {
 	const router = useRouter();
 
 	const [loading, setLoading] = useState(false);
-	const [file, setFile] = useState(null);
 
 	return (
 		<View style={styles.container}>

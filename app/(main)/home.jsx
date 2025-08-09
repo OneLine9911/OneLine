@@ -1,5 +1,5 @@
 import { useRouter } from 'expo-router'
-import { Pressable, StyleSheet, Text, View } from 'react-native'
+import { Pressable, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import Icon from '../../assets/icons'
 import Avatar from '../../components/Avatar'
 import ScreenWrapper from '../../components/ScreenWrapper'
@@ -11,6 +11,42 @@ const Home = () => {
 
     const { user, setAuth } = useAuth();
     const router = useRouter();
+
+    const onAction = (userId) => {
+
+    }
+
+    const users = [
+        {
+            id: 1,
+            username: 'Samuele Mamini',
+            nickname: 'Mamo',
+            image: user?.image,
+            text: "dnspgndspgndfpgndfggbufbrwqobdfosbgoidfngidfniogbdofbdgobnxdiogdog"
+        },
+        {
+            id: 2,
+            username: 'Elia Savini',
+            nickname: 'Savo',
+            image: user?.image,
+            text: "dnspgndspgndfpgndfggbufbrwqobdfosbgoidfngidfniogbdofbdgobnxdiogdog"
+        },
+        {
+            id: 3,
+            username: 'Filippo Cenni',
+            nickname: 'Cen',
+            image: user?.image,
+            text: "dnspgndspgndfpgndfggbufbrwqobdfosbgoidfngidfniogbdofbdgobnxdiogdog"
+        },
+        {
+            id: 4,
+            username: 'Lorenzo Quercioli',
+            nickname: 'Querc',
+            image: user?.image,
+            text: "dnspgndspgndfpgndfggbufbrwqobdfosbgoidfngidfniogbdofbdgobnxdiogdog"
+        },
+    ];
+
 
     return (
         <ScreenWrapper bg='white'>
@@ -35,6 +71,32 @@ const Home = () => {
                         </Pressable>
                     </View>
                 </View>
+                <ScrollView style={styles.listStyle}>
+                    {users.map(user => {
+
+                        return (
+                            <TouchableOpacity
+                                key={user.id}
+                                style={styles.userCard}
+                                onPress={() => onAction(user.id)}
+                            >
+                                <View style={[styles.textContainer]}>
+                                    <Text style={styles.nickname}>{user.text}</Text>
+                                </View>
+                                <Avatar
+                                    style={styles.avatarStyle}
+                                    uri={user?.image}
+                                    size={hp(4)}
+                                    rounded={theme.radius.sm}
+                                />
+
+                            </TouchableOpacity>
+                        );
+                    })}
+
+                </ScrollView>
+
+
             </View>
         </ScreenWrapper>
     )
@@ -45,7 +107,6 @@ export default Home
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        // paddingHorizontal: wp(4)
     },
     header: {
         flexDirection: 'row',
@@ -77,25 +138,41 @@ const styles = StyleSheet.create({
         paddingTop: 20,
         paddingHorizontal: wp(4)
     },
-    noPosts: {
-        fontSize: hp(2),
-        textAlign: 'center',
-        color: theme.colors.text
-    },
-    pills: {
-        position: 'absolute',
-        right: -10,
-        top: -4,
-        height: hp(2.2),
-        width: hp(2.2),
-        justifyContent: 'center',
+    userCard: {
+        width: wp(90),
+        flexDirection: 'row',
         alignItems: 'center',
-        borderRadius: 20,
-        backgroundColor: theme.colors.roseLight
+        marginBottom: 20,
+        backgroundColor: 'white',
     },
-    pillText: {
-        color: 'white',
-        fontSize: hp(1.2),
-        fontWeight: theme.fonts.bold
+    textContainer: {
+        flex: 1,
+        padding: 15,
+        backgroundColor: '#f9f9f9',
+        borderRadius: 8,
+        shadowColor: '#000',
+        shadowOffset: { width: 0, height: 2 },
+        shadowOpacity: 0.1,
+        shadowRadius: 4,
+        elevation: 3,
+
+    },
+    nickname: {
+        fontSize: 14,
+        color: 'gray',
+    },
+    avatarStyle: {
+        position: 'absolute',
+        bottom: -10,
+        right: -12,
+        padding: 7,
+        borderRadius: 50,
+        backgroundColor: 'white',
+        shadowColor: theme.colors.textLight,
+        shadowOffset: { width: 0, height: 4 },
+        shadowOpacity: 0.4,
+        shadowRadius: 5,
+        elevation: 7
+
     }
 })
